@@ -1,0 +1,327 @@
+ADO.NET Nedir?
+
+- ADO.NET’ in açılımı ‘ActiveX Data Objects.NET’ olarak adlandırılır. Microsoft tarafından bize sunulup, veri tabanı ile uygulamalarımız arasında köprü görevini görmektedir. 
+ADO.NET ile uygulama tarafımızda veri tabanımıza bağlanabilir, verilerimizi buradan listeleyebilir, güncelleyebilir, veri ekleyebilir veya silebiliriz. 
+ADO.NET ile MSSQL sorguları, komutlarını uygulama tarafımızda kullanabiliriz.
+
+- ADO.NET bir programlama dili değildir.
+- MSSQL kullanacağımız için projelerimizde namespace alanına “System.Data.SqlClient” eklemeliyiz.
+Object Relation Mapping Nedir?
+
+
+- Veritabanımızda yaratmış olduğumuz her bir nesneye karşılık kod tarafında bir nesne oluşturmamızı temel kural olarak söyleyen yazılım mantığıdır.
+
+Connection Bağlantısı
+
+- C#'tan veritabanına bağlanmak için ihtiyacımız vardır.
+
+data source= serverName;
+initial catalog = veritabaniAdi;
+user id = kullaniciAdi;
+password = sifre
+
+-----------------
+
+Bir C# konsol projesi oluşturup ismini 1.AdoNetGiris yapalım.
+
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _1.Ado.NetGiris
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //Windows Authentication Yöntemi
+
+            //ADO.Net belirli sınıfları ve o sınıfların içerisindeki belirli metotları kullanarak bağlantı işlemlerini gerçekleştirir.
+            //SqlConnection sınıfı
+
+            //Manuel Bağlanma
+            SqlConnection windowsConnectionManual = new SqlConnection("data source=DESKTOP-CMDAG63\SQLEXPRESS;initial catalog=sqldersleri;integrated security=true");
+
+            //Server Name içerisinde \ gibi özel karakterler varsa @ ile sorunu çözebilirsiniz.
+            //SqlConnection windowsConnectionManual = new SqlConnection(@"data source=DESKTOP-CMDAG63\SQLEXPRESS;initial catalog=sqldersleri;integrated security=true");
+
+            //Otomatik Bağlanma
+            SqlConnection windowsConnectionAuto = new SqlConnection(@"Data Source=DESKTOP-CMDAG63\SQLEXPRESS;Initial Catalog=sqldersleri;Integrated Security=True");
+
+            //Üstteki menüden Project -> Add New Data Source -> Database -> Dataset -> New Connection -> Change -> Microsoft SQL Server ->
+            //Server Name gir -> Authentication: Windows Authentication -> Select or Enter Database Name -> Test Connection -> OK
+            //Show, the connection string that you will save in the application
+            //Data Source=DESKTOP-CMDAG63\SQLEXPRESS;Initial Catalog=sqldersleri;Integrated Security=True
+            //Yukarıya yapıştır.
+
+        }
+    }
+}
+
+ya da
+
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _1.Ado.NetGiris
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //SQL Server Authentication Yöntemi
+
+            //Manuel Yöntem
+
+            SqlConnection sqlServerConnectionManual = new SqlConnection(@"data source=DESKTOP-CMDAG63\SQLEXPRESS;initial catalog=sqldersleri;user id=sa;password=1");
+
+            //Otomatik Yöntem
+            //Üstteki menüden Project -> Add New Data Source -> Database -> Dataset -> New Connection -> Change -> Microsoft SQL Server ->
+            //Server Name gir -> Authentication: SQL Server Authentication -> Login, Password -> Select or Enter Database Name -> Test Connection -> OK
+            //Show, the connection string that you will save in the application
+            //Data Source=DESKTOP-CMDAG63\\SQLEXPRESS;User ID=sa istersek password'ü de ekleyebiliriz.
+            //Yukarıya yapıştır.
+            SqlConnection sqlServerConnectionAuto = new SqlConnection("Data Source=DESKTOP-CMDAG63\\SQLEXPRESS;User ID=sa");
+        }
+    }
+}
+
+--------------------
+
+Veritabanımızda bulunan kayıtları, C# kodlarıyla okuyup konsolumuza yazdırmak için;
+
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _1.Ado.NetGiris
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //loginTable tablosundaki kayıtları çekip console'a yazdıralım.
+
+            List<Musteri> musteriList = new List<Musteri>(); //musteriList koleksiyonu oluşturalım.
+
+            //1-bağlantıyı elde edelim.
+            SqlConnection con = new SqlConnection("Data Source=DESKTOP-CMDAG63\\SQLEXPRESS;Initial Catalog=adonet;User ID=sa;password=1");
+            con.Open(); //c# ile veritabanı arasındaki bağı açalım.
+
+            //SqlCommand: Bu sınıf MSSQL üzerinde çalışacak komutlar veya Stored Procedure’ler için ilgili komut deyimlerini barındırır.
+            SqlCommand cmd = new SqlCommand("select * from loginTable", con); //con bağlantısındaki loginTable'a select atma isteğimizi hazırladık ama çalıştırmadık.
+            //cmd.ExecuteReader(); SqlDataReader tipinde bir dönüş yapar.
+
+            //SqlDataReader : Veri tabanından veri döndürülmesi sağlanır. Bu sınıfta veri okunma işlemi sürekli ileri yönlüdür, geri yönlü değildir.
+
+            SqlDataReader dr = cmd.ExecuteReader(); //ExecuteReader ile sorguyu çalıştırınca SQL'deki kayıtları aldık, ve dr'nin içine koyduk. dr nesnesi
+			//dönen kayıtları temsil etmekte.
+
+            //birden fazla kayıt olduğu için while döngüsü ile dönerek bu kayıtlara ulaşalım.
+            while(dr.Read()) //Read metodu ile bu kayıtları oku.
+            {
+                Musteri musteri = new Musteri();
+                musteri.id = int.Parse(dr["id"].ToString());
+                musteri.kullaniciAdi = dr["kullaniciAdi"].ToString();
+                musteri.sifre = dr["sifre"].ToString();
+                musteri.yetki = dr["yetki"].ToString();
+				//kolon isimleri aynı olmalıdır.
+				//musteri nesnesine ekledik ve doldurduk. Bu nesnenin kaybolmaması için yukarıda tanımlamış olduğumuz musteriList koleksiyonuna ekledik.
+                musteriList.Add(musteri);
+            }
+            con.Close(); //veritabanı ile işimiz bitince bağlantıyı kapatmayı unutmayalım.
+			
+            foreach(Musteri musteri in musteriList) //ile de koleksiyonu ekrana yazdırdık.
+            {
+                Console.WriteLine("id: " + musteri.id + " Kullanıcı Adı: " + musteri.kullaniciAdi + " Şifre:" + musteri.sifre + " Yetki: " + musteri.yetki);
+            }
+            Console.Read();
+        }
+    }
+}
+
+Çıktı:
+id: 1 Kullanıcı Adı: Ahmet Şifre:1 Yetki: Admin
+id: 2 Kullanıcı Adı: Hakan Şifre:2 Yetki: Personel
+id: 3 Kullanıcı Adı: Faruk Şifre:3 Yetki: Personel
+
+
+ile SQL Server'da oluşturduğumuz loginTable tablosundaki değerleri çekmiş olduk.
+
+
+------------------------
+
+Veritabanına C# ile Kayıt Ekleme
+
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _1.Ado.NetGiris
+{
+    internal class Program
+    {   //class seviyesinde bir kere tanımlayıp tüm metotlardan erişebiliriz.
+        static SqlConnection con = new SqlConnection("Data Source=DESKTOP-CMDAG63\\SQLEXPRESS;Initial Catalog=adonet;User ID=sa;password=1");
+
+        static void Main(string[] args)
+        {
+            kayitEkle("İsmail", "4", "Sekreter");
+
+            //kayıtlariGetir(); //kod okunulabilirliğini arttırmak için fonksiyon haline getirdik.
+
+          
+        }
+
+        public static void kayitEkle(string kullaniciAdi, string sifre, string yetki)
+        {
+            con.Open(); //bağlantımızı açtık.
+
+            SqlCommand cmd = new SqlCommand("insert into loginTable(kullaniciAdi,sifre,yetki) values(@kulad,@sifre,@yetki)", con);
+                                                                    //tablodaki kolonlarımıza          //buradaki değerleri ekle @parametre ile.
+                                                                    //kullaniciAdi, @kulad'a karşılık gelir. Diğerleri de sırayla.
+            cmd.Parameters.AddWithValue("@kulad", kullaniciAdi);//@kulad'a kayitEkle'den gelen kullaniciAdi parametresinin değeri gelsin.
+                                                                //o da aldığı değeri loginTable'daki kullaniciAdi'na gönderecek.
+            cmd.Parameters.AddWithValue("@sifre", sifre);
+            cmd.Parameters.AddWithValue("@yetki", yetki);
+            //buraya kadar sorguyu hazırladık.
+
+            int donenDeger = cmd.ExecuteNonQuery(); //ile sorgumuzu çalıştırırız. Eğer ki ekleme işlemi başarılı ise donenDeger=1 değisle 0 olur.
+            if(donenDeger == 1)
+            {
+                Console.WriteLine("Kayıt eklenmiştir.");
+            }
+            else
+                Console.WriteLine("Bir sorun oluştu.");
+
+            Console.ReadLine();
+            con.Close();
+        }
+        public static void kayıtlariGetir()
+        {
+            List<Musteri> musteriList = new List<Musteri>();
+
+            SqlConnection con = new SqlConnection("Data Source=DESKTOP-CMDAG63\\SQLEXPRESS;Initial Catalog=adonet;User ID=sa;password=1");
+            con.Open(); 
+
+            SqlCommand cmd = new SqlCommand("select * from loginTable", con); 
+
+            SqlDataReader dr = cmd.ExecuteReader(); 
+
+            while (dr.Read()) 
+            {
+                Musteri musteri = new Musteri();
+                musteri.id = int.Parse(dr["id"].ToString());
+                musteri.kullaniciAdi = dr["kullaniciAdi"].ToString();
+                musteri.sifre = dr["sifre"].ToString();
+                musteri.yetki = dr["yetki"].ToString();
+
+                musteriList.Add(musteri);
+            }
+            con.Close();
+            foreach (Musteri musteri in musteriList)
+            {
+                Console.WriteLine("id: " + musteri.id + " Kullanıcı Adı: " + musteri.kullaniciAdi + " Şifre:" + musteri.sifre + " Yetki: " + musteri.yetki);
+            }
+            Console.Read();
+        }
+    }
+}
+
+
+------------------------
+
+Kayıt Güncelleme
+
+namespace _1.Ado.NetGiris
+{
+    internal class Program
+    {   
+		//class seviyesinde bir kere tanımlayıp tüm metotlardan erişebiliriz.
+        static SqlConnection con = new SqlConnection("Data Source=DESKTOP-CMDAG63\\SQLEXPRESS;Initial Catalog=adonet;User ID=sa;password=1");
+
+        static void Main(string[] args)
+        {
+            kayitGuncelle(4, "Mehmedov");    
+        }
+
+        public static void kayitGuncelle(int id, string kullaniciAdi)
+        {
+            con.Open();
+            SqlCommand cmd = new SqlCommand("update logintable set kullaniciAdi=@kulad where id=@id", con);
+            //con bağlantısındaki loginTable'a git ve id'si ... olanın kullaniciAdi'nı güncelle.
+            cmd.Parameters.AddWithValue("@kulad", kullaniciAdi); //metoda gelen parametreler
+            cmd.Parameters.AddWithValue("@id", id);
+            int donenDeger = cmd.ExecuteNonQuery();
+
+            if(donenDeger == 1)
+                Console.WriteLine("Kayıt güncellendi.");
+            else
+                Console.WriteLine("Güncellenemedi.");
+
+            con.Close();
+            Console.ReadLine();
+        }
++       public static void kayitEkle(string kullaniciAdi, string sifre, string yetki)...
++       public static void kayıtlariGetir()...
+    }
+}
+
+-----------------------
+
+Kayıt Silme
+
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _1.Ado.NetGiris
+{
+    internal class Program
+    {   
+        static SqlConnection con = new SqlConnection("Data Source=DESKTOP-CMDAG63\\SQLEXPRESS;Initial Catalog=adonet;User ID=sa;password=1");
+
+        static void Main(string[] args)
+        {
+            kayitSil(4); //id'si 4 olan kaydı sil.   
+        }
+
+        //insert, update, delete ile executeNoneQuery(); metodunu kullanırız.
+        //Kayıtları getireceksek select ile ExecuteReader(); metodunu kullanırız.
+        public static void kayitSil(int id)
+        {
+            con.Open();
+
+            SqlCommand cmd = new SqlCommand("delete from loginTable where id=@id", con);
+            cmd.Parameters.AddWithValue("@id", id);
+            int donenDeger = cmd.ExecuteNonQuery();
+
+            if(donenDeger == 1)
+            
+                Console.WriteLine("Kayıt başarıyla silinmiştir.");
+            else
+                Console.WriteLine("Silme işlemi başarısız.");
+
+            con.Close();
+            Console.Read();
+        }
++		public static void kayitGuncelle(int id, string kullaniciAdi)
++		public static void kayitEkle(string kullaniciAdi, string sifre, string yetki)...
++       public static void kayıtlariGetir()...
+    }
+}

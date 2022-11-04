@@ -1,0 +1,11 @@
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\2.Ado.NetFormUygulamalari\bin\Debug\2.Ado.NetFormUygulamalari.exe.config
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\2.Ado.NetFormUygulamalari\bin\Debug\2.Ado.NetFormUygulamalari.exe
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\2.Ado.NetFormUygulamalari\bin\Debug\2.Ado.NetFormUygulamalari.pdb
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\2.Ado.NetFormUygulamalari\obj\Debug\2.Ado.NetFormUygulamalari.csproj.AssemblyReference.cache
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\2.Ado.NetFormUygulamalari\obj\Debug\2.Ado.NetFormUygulamalari.csproj.SuggestedBindingRedirects.cache
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\2.Ado.NetFormUygulamalari\obj\Debug\_2.Ado.NetFormUygulamalari.Form1.resources
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\2.Ado.NetFormUygulamalari\obj\Debug\_2.Ado.NetFormUygulamalari.Properties.Resources.resources
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\2.Ado.NetFormUygulamalari\obj\Debug\2.Ado.NetFormUygulamalari.csproj.GenerateResource.cache
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\2.Ado.NetFormUygulamalari\obj\Debug\2.Ado.NetFormUygulamalari.csproj.CoreCompileInputs.cache
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\2.Ado.NetFormUygulamalari\obj\Debug\2.Ado.NetFormUygulamalari.exe
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\2.Ado.NetFormUygulamalari\obj\Debug\2.Ado.NetFormUygulamalari.pdb

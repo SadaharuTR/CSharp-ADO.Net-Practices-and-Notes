@@ -1,0 +1,8 @@
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\1.Ado.NetGiris\bin\Debug\1.Ado.NetGiris.exe.config
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\1.Ado.NetGiris\bin\Debug\1.Ado.NetGiris.exe
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\1.Ado.NetGiris\bin\Debug\1.Ado.NetGiris.pdb
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\1.Ado.NetGiris\obj\Debug\1.Ado.NetGiris.csproj.AssemblyReference.cache
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\1.Ado.NetGiris\obj\Debug\1.Ado.NetGiris.csproj.SuggestedBindingRedirects.cache
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\1.Ado.NetGiris\obj\Debug\1.Ado.NetGiris.csproj.CoreCompileInputs.cache
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\1.Ado.NetGiris\obj\Debug\1.Ado.NetGiris.exe
+C:\Users\Cagatay\Desktop\ADO.Net Uygulamaları\1.Ado.NetGiris\obj\Debug\1.Ado.NetGiris.pdb
